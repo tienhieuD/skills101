@@ -45,6 +45,18 @@ The `description` field is critical — it determines when the skill auto-trigge
 | `db-design-postgres-writer` | Extension of db-design-writer — PostgreSQL-specific types, indexes, FK syntax, pgvector | `postgres-conventions.md` |
 | `test-plan-writer` | Write Test Plans per ISO/IEC/IEEE 29119-3:2021 — scope, approach, measurable criteria, risks | `test-plan-structure.md`, `test-plan-example.md` |
 | `test-design-writer` | Write Test Design Specifications per 29119-3 — derive test conditions (TCOND) using EP/BVA/Decision Table/State Transition | `test-design-structure.md`, `test-design-examples.md` |
+| `test-case-writer` | Write Test Case Specifications per 29119-3 — full TC format, Independence/Atomicity principles, AI output CONTAINS/NOT CONTAINS pattern | `test-case-structure.md`, `test-case-examples.md` |
+| `prd-writer` | Write PRD (Product Requirements Document) — business/user-language doc for client scope confirmation before SRS; User Stories with US-XXX IDs, testable AC, traceability placeholder, approval mechanism | `prd-structure.md`, `user-story-guide.md` |
+
+### prd-writer design decisions
+- PRD is document #1 in the SDLC chain: PRD → SRS → TAD → API/DB Design → Test Plan; sits before SRS and is the client-facing scope confirmation document
+- "What & why" boundary is the primary quality gate — the "What vs How" table in `prd-structure.md` is a quick reference for catching implementation details that leak into the PRD
+- US-XXX IDs are immutable like REQ-IDs in SRS — change content, not the ID; IDs never reused or deleted (mark as Rejected with reason instead)
+- AC testability is the key quality criterion: each AC must be binary pass/fail; AC in PRD are the source for Test Conditions (TCOND) in TDS later — bad AC = untestable test conditions downstream
+- Traceability placeholder `Derived REQ-ID(s): TBD` is structural, not optional — ensures srs-writer has a slot to back-fill, preventing traceability gap
+- Baseline + Change Log pattern is adapted from outsourcing/freelance project governance: once client signs off, the Approved version is frozen; Change Requests modify scope through a tracked process, not direct edits
+- Two AC formats: Checklist (for simple rules) and Given-When-Then (for complex scenarios or AI output behavior); GWT for AI output AC avoids exact-match trap, mirrors CONTAINS/NOT CONTAINS pattern from test-case-writer
+- Two output modes: Single PRD (`prd.md`) for small-medium projects; Feature PRD (`prd-[feature].md`) for large projects with multiple independent feature teams
 
 ### srs-writer design decisions
 - Based on [jam01/SRS-Template](https://github.com/jam01/SRS-Template) aligned to IEEE 830 + ISO/IEC/IEEE 29148:2011/2017
@@ -70,6 +82,13 @@ The `description` field is critical — it determines when the skill auto-trigge
 - Severity: BLOCKER (can't use REQ) / MAJOR (affects testing/design) / MINOR (governance gap) / SUGGESTION
 - Risk level RED/YELLOW/GREEN drives the REJECT/CONDITIONAL ACCEPT/ACCEPT recommendation
 - `finding-guide.md` contains calibration for edge cases (compound REQs, AI-via-API systems, partial ACs)
+
+### test-case-writer design decisions
+- Skill was informed by the user's existing `test-case-guide-29119-3.md` (in Downloads) — that file is a comprehensive reference; this skill distills it into actionable principles without duplicating the full guide
+- AI output testing pattern (CONTAINS / NOT CONTAINS / STRUCTURE) is the primary extension beyond classical ISTQB — addresses the non-deterministic nature of LLM responses; each TC must declare its `Evaluation` method (Manual / Automated keyword / LLM judge)
+- Independence principle is the most common violation found in practice — examples file has an explicit "violation + fix" pair so the pattern is recognizable
+- Atomicity rule has an exception: multiple assertions about the same atomic response object (HTTP status + body fields) are allowed in 1 TC; only split when testing genuinely separate concerns
+- `test-case-guide-29119-3.md` in the user's Downloads is a full 29119-3 guide they may reference independently — this skill references principles from it without requiring it
 
 ### test-design-writer design decisions
 - TDS sits between Test Plan (strategy) and Test Case Spec (execution) — skill.md opens with the 3-level hierarchy: Feature → Test Condition → Coverage Item → Test Case, with a concrete "lean" diagnostic: if you write "click" or "expect status 200" you've slipped into test case territory
