@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:www.reqview.com)",
+      "WebFetch(domain:adr.github.io)",
+      "WebFetch(domain:docs.arc42.org)",
+      "WebFetch(domain:faq.arc42.org)"
+    ]
+  }
+}
