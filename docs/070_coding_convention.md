@@ -145,6 +145,22 @@ export default function PostCard() {}
 
 Không tự thêm màu ngoài Geist tokens.
 
+### Geist Components — dùng sẵn, không tự viết lại
+
+Geist cung cấp component library tại `@vercel/geist/components`. **Nếu Geist có sẵn component, PHẢI dùng Geist — không tự viết lại.**
+
+```typescript
+// ✅ Dùng Geist component
+import { Breadcrumb, BreadcrumbItem } from '@vercel/geist/components'
+import { Badge } from '@vercel/geist/components'
+import { Spinner } from '@vercel/geist/components'
+
+// ❌ Tự viết component đã có trong Geist
+export function Breadcrumb() { /* ... */ }
+```
+
+Trước khi viết component mới, kiểm tra tại [Geist component list](https://vercel.com/geist/introduction). Nếu Geist không có → mới tự viết bằng Tailwind.
+
 ### Tailwind rules
 
 | Rule | ✅ | ❌ |
