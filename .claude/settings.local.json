@@ -9,7 +9,12 @@
       "WebFetch(domain:www.reqview.com)",
       "WebFetch(domain:adr.github.io)",
       "WebFetch(domain:docs.arc42.org)",
-      "WebFetch(domain:faq.arc42.org)"
+      "WebFetch(domain:faq.arc42.org)",
+      "Bash(npm --version)",
+      "Bash(*)"
     ]
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-marketplace": true
   }
 }
