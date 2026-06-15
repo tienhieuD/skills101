@@ -145,21 +145,38 @@ export default function PostCard() {}
 
 Không tự thêm màu ngoài Geist tokens.
 
-### Geist Components — dùng sẵn, không tự viết lại
+### Internal UI Library — `src/components/ui/*`
 
-Geist cung cấp component library tại `@vercel/geist/components`. **Nếu Geist có sẵn component, PHẢI dùng Geist — không tự viết lại.**
+Project có internal UI library tại `src/components/ui/`, API mimic [Vercel Geist Design System](https://vercel.com/geist) (chỉ tham khảo design — Vercel không public component package, xem [BUG-001](others/230_coding_bugs.md)).
+
+Các primitive (Phase 1):
+
+| Primitive | Path | Category | Notes |
+|-----------|------|---------|-------|
+| Button | `ui/Button` | Action | variants: primary / secondary / ghost; sizes: sm / md / lg |
+| IconButton | `ui/IconButton` | Action | `aria-label` bắt buộc, 44×44 touch target |
+| Input | `ui/Input` | Form | forward ref; 44px min-height |
+| Badge | `ui/Badge` | Display | `as`: span / a / button; variants: default / active |
+| Card | `ui/Card` | Display | compound: `Card.Header`, `Card.Body`, `Card.Footer` |
+| Spinner | `ui/Spinner` | Feedback | sizes: sm / md / lg |
+| Note | `ui/Note` | Display | variants: info / warning / archived |
+| Drawer | `ui/Drawer` | Overlay | wrap `@headlessui/react` Dialog |
+| Pagination | `ui/Pagination` | Navigation | previous / next + page indicator |
+| ThemeSwitcher | `ui/ThemeSwitcher` | Action | dùng `next-themes` useTheme |
+
+**Quy tắc:**
+- Trước khi tự viết button / input / card / badge mới → dùng primitive tại `src/components/ui/`.
+- Nếu primitive chưa cover use case → mở rộng primitive (props mới), không tạo duplicate ngoài `ui/`.
+- Component cần tương tác phức tạp (menu, combobox, modal, ...) → wrap `@headlessui/react`.
+- Library này được thiết kế để open-source sau này — không hard-code project-specific logic vào primitive.
 
 ```typescript
-// ✅ Dùng Geist component
-import { Breadcrumb, BreadcrumbItem } from '@vercel/geist/components'
-import { Badge } from '@vercel/geist/components'
-import { Spinner } from '@vercel/geist/components'
+// ✅ Dùng primitive từ ui library
+import { Button, Card, Badge } from '@/components/ui'
 
-// ❌ Tự viết component đã có trong Geist
-export function Breadcrumb() { /* ... */ }
+// ❌ Tự viết duplicate ngoài ui/
+export function MyButton() { /* ... */ }
 ```
-
-Trước khi viết component mới, kiểm tra tại [Geist component list](https://vercel.com/geist/introduction). Nếu Geist không có → mới tự viết bằng Tailwind.
 
 ### Tailwind rules
 
