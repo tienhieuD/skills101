@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Button, Card, Input, Spinner } from '@/components/ui'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -42,11 +43,7 @@ export function NewsletterForm() {
   }
 
   if (status === 'success') {
-    return (
-      <div className="p-4 rounded border" style={{ borderColor: 'var(--border)', color: 'var(--gray-800)' }}>
-        Đăng ký thành công! Kiểm tra email của bạn.
-      </div>
-    )
+    return <Card>Đăng ký thành công! Kiểm tra email của bạn.</Card>
   }
 
   return (
@@ -55,28 +52,25 @@ export function NewsletterForm() {
         Đăng ký nhận bài mới
       </label>
       <div className="flex flex-col sm:flex-row gap-2">
-        <input
+        <Input
           id="newsletter-email"
           type="email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="email@example.com"
           required
           disabled={status === 'loading'}
-          className="flex-1 px-3 py-2 min-h-[44px] border rounded"
-          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)' }}
+          className="flex-1"
         />
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="px-4 py-2 min-h-[44px] rounded border font-medium disabled:opacity-50"
-          style={{ borderColor: 'var(--border)' }}
-        >
+        <Button variant="primary" type="submit" disabled={status === 'loading'}>
+          {status === 'loading' && <Spinner size="sm" label="Đang gửi" />}
           {status === 'loading' ? 'Đang gửi...' : 'Đăng ký'}
-        </button>
+        </Button>
       </div>
       {status === 'error' && errorMsg && (
-        <p className="text-sm" style={{ color: '#dc2626' }} role="alert">{errorMsg}</p>
+        <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+          {errorMsg}
+        </p>
       )}
     </form>
   )

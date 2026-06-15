@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { PostCard } from '@/components/PostCard'
-import { Pagination } from '@/components/Pagination'
+import { Pagination } from '@/components/ui'
 import { TagFilter } from '@/components/TagFilter'
 import { getAllPosts, paginatePosts } from '@/lib/posts'
 

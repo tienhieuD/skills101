@@ -9,6 +9,7 @@ import type { Metadata } from 'next'
 import { getPost, getAllSlugs } from '@/lib/posts'
 import { GiscusComments } from '@/components/GiscusComments'
 import { ViewCounter } from '@/components/ViewCounter'
+import { Badge, Note } from '@/components/ui'
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return getAllSlugs()
@@ -71,12 +72,9 @@ export default async function PostPage({
   return (
     <article>
       {isArchived && (
-        <div
-          className="mb-6 p-4 rounded border"
-          style={{ borderColor: 'var(--border)', backgroundColor: 'var(--gray-100)' }}
-        >
-          <strong>Archived</strong> — Bài này đã được lưu trữ.
-        </div>
+        <Note variant="archived" title="Archived" className="mb-6">
+          Bài này đã được lưu trữ.
+        </Note>
       )}
 
       {post.cover && (
@@ -102,14 +100,9 @@ export default async function PostPage({
         {post.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <a
-                key={tag}
-                href={`/?tag=${encodeURIComponent(tag)}`}
-                className="inline-flex items-center px-3 py-2 min-h-[44px] text-sm border rounded-full"
-                style={{ borderColor: 'var(--border)' }}
-              >
+              <Badge key={tag} as="a" href={`/?tag=${encodeURIComponent(tag)}`}>
                 {tag}
-              </a>
+              </Badge>
             ))}
           </div>
         )}

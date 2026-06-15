@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { Input, Spinner } from '@/components/ui'
 
 interface PagefindResult {
   id: string
@@ -78,16 +79,15 @@ export function SearchBox() {
 
   return (
     <div className="w-full">
-      <input
+      <Input
         type="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Tìm kiếm bài viết..."
-        className="w-full px-3 py-2 min-h-[44px] border rounded"
-        style={{ borderColor: 'var(--border)', backgroundColor: 'var(--background)' }}
       />
       {status === 'loading' && (
-        <p className="mt-2 text-sm" style={{ color: 'var(--gray-600)' }}>
+        <p className="mt-2 text-sm flex items-center gap-2 text-[var(--gray-600)]">
+          <Spinner size="sm" label="Đang tìm" />
           Đang tìm...
         </p>
       )}

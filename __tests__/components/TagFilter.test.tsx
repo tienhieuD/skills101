@@ -25,7 +25,8 @@ describe('TagFilter', () => {
     render(<TagFilter allTags={['nextjs', 'react']} activeTag="nextjs" />)
     const active = screen.getByRole('button', { name: 'nextjs' })
     expect(active).toHaveAttribute('aria-pressed', 'true')
-    expect(active.className).toContain('bg-foreground')
+    // Active variant uses CSS var bg → class includes 'bg-[var(--foreground)]'
+    expect(active.className).toContain('bg-[var(--foreground)]')
     expect(screen.getByRole('button', { name: 'Tất cả' })).toBeInTheDocument()
   })
 

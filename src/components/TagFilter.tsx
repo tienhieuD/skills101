@@ -1,14 +1,12 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { Badge, Button } from '@/components/ui'
 
 interface TagFilterProps {
   allTags: string[]
   activeTag?: string
 }
-
-const baseChipClass =
-  'inline-flex items-center min-h-[44px] min-w-[44px] px-3 py-2 rounded-full text-sm border'
 
 export function TagFilter({ allTags, activeTag }: TagFilterProps) {
   const router = useRouter()
@@ -18,31 +16,21 @@ export function TagFilter({ allTags, activeTag }: TagFilterProps) {
       {allTags.map((tag) => {
         const isActive = tag === activeTag
         return (
-          <button
+          <Badge
             key={tag}
-            type="button"
-            onClick={() => router.push(`/?tag=${tag}`)}
-            className={
-              isActive
-                ? `${baseChipClass} bg-foreground text-background`
-                : baseChipClass
-            }
-            style={isActive ? undefined : { borderColor: 'var(--gray-600)' }}
+            as="button"
+            variant={isActive ? 'active' : 'default'}
+            onClick={() => router.push(`/?tag=${encodeURIComponent(tag)}`)}
             aria-pressed={isActive}
           >
             {tag}
-          </button>
+          </Badge>
         )
       })}
       {activeTag && (
-        <button
-          type="button"
-          onClick={() => router.push('/')}
-          className={baseChipClass}
-          style={{ borderColor: 'var(--gray-600)' }}
-        >
+        <Button variant="ghost" size="sm" onClick={() => router.push('/')}>
           Tất cả
-        </button>
+        </Button>
       )}
     </div>
   )

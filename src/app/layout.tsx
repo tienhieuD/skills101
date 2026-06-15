@@ -4,7 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/next'
 import Link from 'next/link'
-import { ThemeToggle } from '@/components/ThemeToggle'
+import { ThemeSwitcher } from '@/components/ui'
 import { MobileNav } from '@/components/MobileNav'
 import './globals.css'
 
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <Link href="/" className="inline-flex items-center px-3 min-h-[44px]">Trang chủ</Link>
                   <Link href="/about" className="inline-flex items-center px-3 min-h-[44px]">Giới thiệu</Link>
                 </nav>
-                <ThemeToggle />
+                <ThemeSwitcher />
                 <MobileNav />
               </div>
             </div>
