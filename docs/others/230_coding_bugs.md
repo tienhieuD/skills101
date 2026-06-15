@@ -7,7 +7,8 @@ Danh sách bug / technical debt / convention inconsistency. Mỗi entry: ID, sev
 ## BUG-001: Convention reference đến package không tồn tại
 
 - **Severity:** Medium (misleading, không break runtime)
-- **Status:** Open → Resolved sau khi PR merge
+- **Status:** ✅ Resolved (2026-06-15, branch `example`)
+- **Resolved commits:** d4562b2 (register), 49090d8 (convention), 9994432 (deps), 7ec1fd0 / edd044f / 09e6451 / 28071ea / 23558cf / 8594c50 (ui library build), ee53fe4 (refactor)
 - **File:** `docs/070_coding_convention.md` §5 "Geist Components"
 - **Description:** Convention yêu cầu `import { ... } from '@vercel/geist/components'`. Package này KHÔNG tồn tại public trên npm (verify `npm view @vercel/geist` → 404). `@vercel/geistcn`, `geistcn` cũng 404. Chỉ `geist` (fonts) tồn tại.
 - **Impact:** Subagent / developer mới sẽ tin có Geist component package, không tìm thấy primitive hoặc thử install gây confusion. 9 components hiện đã custom (đúng vì không có lựa chọn) nhưng pattern lặp + tốn dòng.
