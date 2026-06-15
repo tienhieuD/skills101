@@ -23,11 +23,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <header className="border-b relative" style={{ borderColor: 'var(--border)' }}>
             <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-              <Link href="/" className="font-semibold text-lg">Blog</Link>
+              <Link href="/" className="font-semibold text-lg inline-flex items-center min-h-[44px]">Blog</Link>
               <div className="flex items-center gap-2">
-                <nav className="hidden md:flex items-center gap-4 text-sm">
-                  <Link href="/">Trang chủ</Link>
-                  <Link href="/about">Giới thiệu</Link>
+                <nav className="hidden md:flex items-center gap-1 text-sm">
+                  <Link href="/" className="inline-flex items-center px-3 min-h-[44px]">Trang chủ</Link>
+                  <Link href="/about" className="inline-flex items-center px-3 min-h-[44px]">Giới thiệu</Link>
                 </nav>
                 <ThemeToggle />
                 <MobileNav />
