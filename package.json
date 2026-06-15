@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
@@ -45,6 +46,7 @@
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.3.3",
     "jsdom": "^25.0.1",
+    "pagefind": "^1.5.2",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^4.0.0",
