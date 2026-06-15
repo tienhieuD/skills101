@@ -4,6 +4,8 @@ import { GeistMono } from 'geist/font/mono'
 import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/next'
 import Link from 'next/link'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { MobileNav } from '@/components/MobileNav'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -19,13 +21,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="vi" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="min-h-screen flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <header className="border-b" style={{ borderColor: 'var(--border)' }}>
+          <header className="border-b relative" style={{ borderColor: 'var(--border)' }}>
             <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
               <Link href="/" className="font-semibold text-lg">Blog</Link>
-              <nav className="flex items-center gap-4 text-sm">
-                <Link href="/">Trang chủ</Link>
-                <Link href="/about">Giới thiệu</Link>
-              </nav>
+              <div className="flex items-center gap-2">
+                <nav className="hidden md:flex items-center gap-4 text-sm">
+                  <Link href="/">Trang chủ</Link>
+                  <Link href="/about">Giới thiệu</Link>
+                </nav>
+                <ThemeToggle />
+                <MobileNav />
+              </div>
             </div>
           </header>
           <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-8">{children}</main>
