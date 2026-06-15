@@ -169,6 +169,22 @@ export async function syncPageObject(
     viewCount = existingFm.viewCount ?? 0
   }
 
+  // Pull live view count from Vercel KV when configured (REQ-FUNC-002 sort=popular)
+  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    try {
+      const { kv } = await import('@vercel/kv')
+      const liveCount = await kv.get<number>(`views:${slug}`)
+      if (typeof liveCount === 'number' && liveCount > viewCount) {
+        viewCount = liveCount
+      }
+    } catch (err) {
+      console.warn(
+        `Failed to read views:${slug} from KV:`,
+        err instanceof Error ? err.message : err
+      )
+    }
+  }
+
   const markdown = await pageToMarkdown(page.id)
   const content = await reHostMarkdownImages(markdown, slug)
 
