@@ -8,6 +8,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import type { Metadata } from 'next'
 import { getPost, getAllSlugs } from '@/lib/posts'
 import { GiscusComments } from '@/components/GiscusComments'
+import { ViewCounter } from '@/components/ViewCounter'
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return getAllSlugs()
@@ -93,11 +94,11 @@ export default async function PostPage({
 
       <header className="mb-6">
         <h1 className="text-4xl font-bold mb-2">{post.title}</h1>
-        {dateFormatted && (
-          <time className="text-sm" style={{ color: 'var(--gray-600)' }}>
-            {dateFormatted}
-          </time>
-        )}
+        <div className="flex items-center gap-3 text-sm" style={{ color: 'var(--gray-600)' }}>
+          {dateFormatted && <time>{dateFormatted}</time>}
+          {dateFormatted && <span>·</span>}
+          <ViewCounter slug={post.slug} initialCount={post.viewCount} />
+        </div>
         {post.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
