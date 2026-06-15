@@ -10,7 +10,8 @@ import type { Metadata } from 'next'
 import { getPost, getAllSlugs } from '@/lib/posts'
 import { GiscusComments } from '@/components/GiscusComments'
 import { ViewCounter } from '@/components/ViewCounter'
-import { Badge, Note } from '@/components/ui'
+import { Badge } from '@/components/ui/badge'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return getAllSlugs()
@@ -73,9 +74,10 @@ export default async function PostPage({
   return (
     <article className="space-y-10">
       {isArchived && (
-        <Note variant="archived" title="Archived">
-          Bài này đã được lưu trữ.
-        </Note>
+        <Alert>
+          <AlertTitle>Archived</AlertTitle>
+          <AlertDescription>Bài này đã được lưu trữ.</AlertDescription>
+        </Alert>
       )}
 
       <header className="space-y-6">
@@ -138,9 +140,9 @@ export default async function PostPage({
           <p className="text-sm text-[var(--gray-500)] mb-3">Tags</p>
           <div className="flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <Badge key={tag} as="a" href={`/?tag=${encodeURIComponent(tag)}`}>
-                {tag}
-              </Badge>
+              <Link key={tag} href={`/?tag=${encodeURIComponent(tag)}`}>
+                <Badge variant="outline">{tag}</Badge>
+              </Link>
             ))}
           </div>
         </div>

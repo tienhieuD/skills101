@@ -7,8 +7,11 @@ Danh sách bug / technical debt / convention inconsistency. Mỗi entry: ID, sev
 ## BUG-001: Convention reference đến package không tồn tại
 
 - **Severity:** Medium (misleading, không break runtime)
-- **Status:** ✅ Resolved (2026-06-15, branch `example`)
-- **Resolved commits:** d4562b2 (register), 49090d8 (convention), 9994432 (deps), 7ec1fd0 / edd044f / 09e6451 / 28071ea / 23558cf / 8594c50 (ui library build), ee53fe4 (refactor)
+- **Status:** ✅ Re-resolved (2026-06-15 v2) — chuyển sang shadcn/ui với preset radix-lyra
+- **Original resolution:** Internal UI library tại `src/components/ui/` (custom CVA + Headless UI).
+- **Updated approach:** User yêu cầu đổi sang shadcn/ui (`npx shadcn@latest apply --preset buFyyzy`). Custom library bị xóa, thay bằng shadcn components sao chép vào `src/components/ui/`.
+- **Resolved commits (v1):** d4562b2, 49090d8, 9994432, 7ec1fd0, edd044f, 09e6451, 28071ea, 23558cf, 8594c50, ee53fe4
+- **Re-resolution commits:** xem commit history sau khi shadcn applied + refactor consumers.
 
 ---
 

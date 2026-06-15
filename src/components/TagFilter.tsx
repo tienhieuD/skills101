@@ -1,7 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Badge, Button } from '@/components/ui'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 interface TagFilterProps {
   allTags: string[]
@@ -18,10 +19,18 @@ export function TagFilter({ allTags, activeTag }: TagFilterProps) {
         return (
           <Badge
             key={tag}
-            as="button"
-            variant={isActive ? 'active' : 'default'}
+            variant={isActive ? 'default' : 'outline'}
+            className="cursor-pointer"
             onClick={() => router.push(`/?tag=${encodeURIComponent(tag)}`)}
             aria-pressed={isActive}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                router.push(`/?tag=${encodeURIComponent(tag)}`)
+              }
+            }}
           >
             {tag}
           </Badge>

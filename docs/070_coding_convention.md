@@ -145,36 +145,54 @@ export default function PostCard() {}
 
 Không tự thêm màu ngoài Geist tokens.
 
-### Internal UI Library — `src/components/ui/*`
+### UI Library — shadcn/ui (`src/components/ui/*`)
 
-Project có internal UI library tại `src/components/ui/`, API mimic [Vercel Geist Design System](https://vercel.com/geist) (chỉ tham khảo design — Vercel không public component package, xem [BUG-001](others/230_coding_bugs.md)).
+Project dùng [shadcn/ui](https://ui.shadcn.com) với style preset **radix-lyra** + design tokens phong cách Geist (đen / trắng tối giản). Components copied vào `src/components/ui/`, owned by the project (no runtime dependency on a registry).
 
-Các primitive (Phase 1):
+Config:
+- `components.json` tại project root
+- `src/lib/utils.ts` — `cn()` helper (clsx + tailwind-merge)
+- Icon library: `lucide-react`
+- Tokens: oklch-based CSS vars (background / foreground / primary / secondary / muted / accent / destructive / border / ring + sidebar + chart)
 
-| Primitive | Path | Category | Notes |
-|-----------|------|---------|-------|
-| Button | `ui/Button` | Action | variants: primary / secondary / ghost; sizes: sm / md / lg |
-| IconButton | `ui/IconButton` | Action | `aria-label` bắt buộc, 44×44 touch target |
-| Input | `ui/Input` | Form | forward ref; 44px min-height |
-| Badge | `ui/Badge` | Display | `as`: span / a / button; variants: default / active |
-| Card | `ui/Card` | Display | compound: `Card.Header`, `Card.Body`, `Card.Footer` |
-| Spinner | `ui/Spinner` | Feedback | sizes: sm / md / lg |
-| Note | `ui/Note` | Display | variants: info / warning / archived |
-| Drawer | `ui/Drawer` | Overlay | wrap `@headlessui/react` Dialog |
-| Pagination | `ui/Pagination` | Navigation | previous / next + page indicator |
-| ThemeSwitcher | `ui/ThemeSwitcher` | Action | dùng `next-themes` useTheme |
+Components đã add (Phase 1):
+
+| Component | File | Provides |
+|-----------|------|---------|
+| Button | `ui/button.tsx` | variants: default / outline / secondary / ghost / destructive / link; sizes: default / xs / sm / lg / icon |
+| Badge | `ui/badge.tsx` | variants: default / secondary / destructive / outline |
+| Card | `ui/card.tsx` | `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` |
+| Input | `ui/input.tsx` | forwards ref + native input attrs |
+| Label | `ui/label.tsx` | Radix Label primitive |
+| Separator | `ui/separator.tsx` | horizontal / vertical divider |
+| Sheet | `ui/sheet.tsx` | side panel (Radix Dialog) — dùng cho mobile nav |
+| Alert | `ui/alert.tsx` | `Alert`, `AlertTitle`, `AlertDescription` |
+| Pagination | `ui/pagination.tsx` | `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext` |
+
+Wrapper / project-specific components (không thuộc shadcn) sống tại `src/components/`:
+
+| Component | File | Mục đích |
+|-----------|------|---------|
+| BlogPagination | `BlogPagination.tsx` | Wrap shadcn Pagination với href builder cho query params |
+| ThemeSwitcher | `ThemeSwitcher.tsx` | next-themes + lucide icons |
+| MobileNav | `MobileNav.tsx` | Wrap shadcn Sheet |
+| PostCard, TagFilter, SearchBox, NewsletterForm, GiscusComments, ViewCounter | — | Blog-specific |
 
 **Quy tắc:**
-- Trước khi tự viết button / input / card / badge mới → dùng primitive tại `src/components/ui/`.
-- Nếu primitive chưa cover use case → mở rộng primitive (props mới), không tạo duplicate ngoài `ui/`.
-- Component cần tương tác phức tạp (menu, combobox, modal, ...) → wrap `@headlessui/react`.
-- Library này được thiết kế để open-source sau này — không hard-code project-specific logic vào primitive.
+- Trước khi tự viết primitive (button / input / card / dialog / ...) → check [shadcn registry](https://ui.shadcn.com/docs/components). Add bằng `npx shadcn@latest add <name>`.
+- Custom component blog-specific sống ở `src/components/`, không ở `src/components/ui/`.
+- Style customize qua className + `cn()` — chỉ sửa file trong `ui/` khi cần thay đổi API hoặc tokens. Document override trong commit message.
+- Icons: `lucide-react`. Không tự vẽ SVG inline trừ khi lucide không có icon đó.
 
 ```typescript
-// ✅ Dùng primitive từ ui library
-import { Button, Card, Badge } from '@/components/ui'
+// ✅ Dùng shadcn primitive
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 
-// ❌ Tự viết duplicate ngoài ui/
+// ✅ Wrapper project-specific
+import { BlogPagination } from '@/components/BlogPagination'
+
+// ❌ Tự viết duplicate button
 export function MyButton() { /* ... */ }
 ```
 
@@ -386,7 +404,7 @@ Không commit trực tiếp vào `main`.
 | `styled-components` / `emotion` | Tailwind | Conflict với Geist approach |
 | `redux` / `zustand` | URL state + Server Components | Không có global state phức tạp |
 | `react-query` | Next.js fetch + Server Components | SSG không cần client fetch |
-| `@mui/*` / `shadcn/ui` | Geist + custom | Conflict với design tối giản |
+| `@mui/*` | shadcn/ui | shadcn ownership model phù hợp hơn — đã add vào project |
 | `next-pwa` | `@serwist/next` | Không maintain cho App Router |
 | `jest` | Vitest | ESM compatibility tốt hơn |
 

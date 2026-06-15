@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Input, Spinner } from '@/components/ui'
+import { Loader2 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 interface PagefindResult {
   id: string
@@ -86,8 +87,8 @@ export function SearchBox() {
         placeholder="Tìm kiếm bài viết..."
       />
       {status === 'loading' && (
-        <p className="mt-2 text-sm flex items-center gap-2 text-[var(--gray-600)]">
-          <Spinner size="sm" label="Đang tìm" />
+        <p className="mt-2 text-sm flex items-center gap-2 text-muted-foreground">
+          <Loader2 className="size-4 animate-spin" aria-label="Đang tìm" />
           Đang tìm...
         </p>
       )}

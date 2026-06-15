@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { Pagination } from '@/components/ui'
+import { BlogPagination } from '@/components/BlogPagination'
 
+// shadcn pagination uses Next Link transparently via plain <a href>
 vi.mock('next/link', () => ({
   default: ({
     href,
@@ -19,47 +20,43 @@ vi.mock('next/link', () => ({
   ),
 }))
 
-describe('Pagination', () => {
+describe('BlogPagination', () => {
   it('renders nothing when totalPages <= 1', () => {
-    const { container } = render(<Pagination currentPage={1} totalPages={1} />)
+    const { container } = render(<BlogPagination currentPage={1} totalPages={1} />)
     expect(container.firstChild).toBeNull()
   })
 
-  it('renders Previous and Next links with correct hrefs when in middle', () => {
-    render(<Pagination currentPage={2} totalPages={3} />)
-    const prev = screen.getByRole('link', { name: /trang trước/i })
-    const next = screen.getByRole('link', { name: /trang sau/i })
+  it('renders previous and next anchors with correct hrefs in middle', () => {
+    render(<BlogPagination currentPage={2} totalPages={3} />)
+    const prev = screen.getByLabelText('Trang trước')
+    const next = screen.getByLabelText('Trang sau')
     expect(prev).toHaveAttribute('href', '/')
     expect(next).toHaveAttribute('href', '/?page=3')
-    expect(screen.getByText('Trang 2 / 3')).toBeInTheDocument()
+    expect(screen.getByText('/ 3')).toBeInTheDocument()
   })
 
-  it('disables Previous on first page', () => {
-    render(<Pagination currentPage={1} totalPages={3} />)
-    expect(screen.queryByRole('link', { name: /trang trước/i })).toBeNull()
-    const disabled = screen.getByText('Previous')
-    expect(disabled.tagName).toBe('SPAN')
-    expect(disabled).toHaveAttribute('aria-disabled', 'true')
+  it('disables previous (aria-disabled) on first page', () => {
+    render(<BlogPagination currentPage={1} totalPages={3} />)
+    const prev = screen.getByLabelText('Go to previous page')
+    expect(prev).toHaveAttribute('aria-disabled', 'true')
   })
 
-  it('disables Next on last page', () => {
-    render(<Pagination currentPage={3} totalPages={3} />)
-    expect(screen.queryByRole('link', { name: /trang sau/i })).toBeNull()
-    const disabled = screen.getByText('Next')
-    expect(disabled.tagName).toBe('SPAN')
-    expect(disabled).toHaveAttribute('aria-disabled', 'true')
+  it('disables next (aria-disabled) on last page', () => {
+    render(<BlogPagination currentPage={3} totalPages={3} />)
+    const next = screen.getByLabelText('Go to next page')
+    expect(next).toHaveAttribute('aria-disabled', 'true')
   })
 
-  it('preserves searchParams in href', () => {
+  it('preserves searchParams in hrefs', () => {
     render(
-      <Pagination
+      <BlogPagination
         currentPage={2}
         totalPages={5}
         searchParams={{ tag: 'nextjs', empty: '', undef: undefined }}
       />
     )
-    const prev = screen.getByRole('link', { name: /trang trước/i })
-    const next = screen.getByRole('link', { name: /trang sau/i })
+    const prev = screen.getByLabelText('Trang trước')
+    const next = screen.getByLabelText('Trang sau')
     expect(prev).toHaveAttribute('href', '/?tag=nextjs')
     expect(next).toHaveAttribute('href', '/?tag=nextjs&page=3')
   })

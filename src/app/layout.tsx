@@ -4,8 +4,9 @@ import { GeistMono } from 'geist/font/mono'
 import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/next'
 import Link from 'next/link'
-import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher'
+import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { MobileNav } from '@/components/MobileNav'
+import { cn } from '@/lib/utils'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="vi"
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={cn(GeistSans.variable, GeistMono.variable, 'font-sans')}
     >
       <body className="min-h-screen flex flex-col">
         <ThemeProvider

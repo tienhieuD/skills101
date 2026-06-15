@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
 import React from 'react'
-import { ThemeSwitcher as ThemeToggle } from '@/components/ui'
+import { ThemeSwitcher as ThemeToggle } from '@/components/ThemeSwitcher'
 
 const setTheme = vi.fn()
 let mockState: { theme?: string; resolvedTheme?: string } = {}

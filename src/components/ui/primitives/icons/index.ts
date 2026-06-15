@@ -1,6 +1,0 @@
-export { SunIcon } from './Sun'
-export { MoonIcon } from './Moon'
-export { MenuIcon } from './Menu'
-export { CloseIcon } from './Close'
-export { SearchIcon } from './Search'
-export type { IconProps } from './types'

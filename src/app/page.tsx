@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { PostCard } from '@/components/PostCard'
-import { Pagination } from '@/components/ui'
+import { BlogPagination } from '@/components/BlogPagination'
 import { TagFilter } from '@/components/TagFilter'
 import { getAllPosts, paginatePosts } from '@/lib/posts'
 
@@ -105,7 +105,7 @@ export default async function HomePage({
 
         {paginated.totalPages > 1 && (
           <div className="mt-16">
-            <Pagination
+            <BlogPagination
               currentPage={paginated.currentPage}
               totalPages={paginated.totalPages}
               basePath="/"
