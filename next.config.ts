@@ -24,7 +24,7 @@ const withSerwist = withSerwistInit({
   swSrc: 'src/app/sw.ts',
   swDest: 'public/sw.js',
   reloadOnOnline: true,
-  disable: process.env.NODE_ENV === 'development',
+  disable: true, // temporarily disabled — see investigation in tracker
 })
 
 export default withSerwist(nextConfig)

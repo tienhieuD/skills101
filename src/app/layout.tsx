@@ -4,7 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import { ThemeProvider } from 'next-themes'
 import { Analytics } from '@vercel/analytics/next'
 import Link from 'next/link'
-import { ThemeSwitcher } from '@/components/ui'
+import { ThemeSwitcher } from '@/components/ui/ThemeSwitcher'
 import { MobileNav } from '@/components/MobileNav'
 import './globals.css'
 
@@ -18,26 +18,61 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" suppressHydrationWarning className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html
+      lang="vi"
+      suppressHydrationWarning
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+    >
       <body className="min-h-screen flex flex-col">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <header className="border-b relative" style={{ borderColor: 'var(--border)' }}>
-            <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
-              <Link href="/" className="font-semibold text-lg inline-flex items-center min-h-[44px]">Blog</Link>
-              <div className="flex items-center gap-2">
-                <nav className="hidden md:flex items-center gap-1 text-sm">
-                  <Link href="/" className="inline-flex items-center px-3 min-h-[44px]">Trang chủ</Link>
-                  <Link href="/about" className="inline-flex items-center px-3 min-h-[44px]">Giới thiệu</Link>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <header className="sticky top-0 z-40 bg-[var(--background)]/85 backdrop-blur border-b border-[var(--border)]">
+            <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 font-semibold tracking-tight"
+              >
+                <span className="text-[15px]">Blog</span>
+              </Link>
+              <div className="flex items-center gap-1">
+                <nav className="hidden md:flex items-center text-sm text-[var(--gray-600)]">
+                  <Link
+                    href="/"
+                    className="inline-flex items-center px-3 h-10 hover:text-[var(--foreground)] transition-colors"
+                  >
+                    Bài viết
+                  </Link>
+                  <Link
+                    href="/about"
+                    className="inline-flex items-center px-3 h-10 hover:text-[var(--foreground)] transition-colors"
+                  >
+                    Giới thiệu
+                  </Link>
                 </nav>
                 <ThemeSwitcher />
                 <MobileNav />
               </div>
             </div>
           </header>
-          <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-8">{children}</main>
-          <footer className="border-t" style={{ borderColor: 'var(--border)' }}>
-            <div className="max-w-3xl mx-auto px-4 py-6 text-sm text-center" style={{ color: 'var(--gray-600)' }}>
-              © 2026 Blog cá nhân
+          <main className="flex-1 max-w-3xl mx-auto w-full px-6 py-16">{children}</main>
+          <footer className="border-t border-[var(--border)]">
+            <div className="max-w-3xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-[var(--gray-500)]">
+              <div>© 2026 Blog cá nhân về lập trình</div>
+              <div className="flex items-center gap-4">
+                <Link href="/rss.xml" className="hover:text-[var(--foreground)] transition-colors">
+                  RSS
+                </Link>
+                <Link
+                  href="/sitemap.xml"
+                  className="hover:text-[var(--foreground)] transition-colors"
+                >
+                  Sitemap
+                </Link>
+              </div>
             </div>
           </footer>
         </ThemeProvider>

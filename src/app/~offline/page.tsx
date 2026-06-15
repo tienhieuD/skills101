@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Note, buttonVariants } from '@/components/ui'
+import { Note } from '@/components/ui/Note'
+import { buttonVariants } from '@/components/ui/Button/Button.variants'
 
 export const metadata = {
   title: 'Offline',

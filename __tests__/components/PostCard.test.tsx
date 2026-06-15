@@ -18,15 +18,17 @@ const basePost: PostFrontmatter = {
 }
 
 describe('PostCard', () => {
-  it('renders title, link, tags and excerpt', () => {
+  it('renders title, link to detail page, primary tag, date, and excerpt', () => {
     render(<PostCard post={basePost} />)
+    // Title text is present
     expect(screen.getByText('Bài viết mẫu')).toBeInTheDocument()
-    const link = screen.getByRole('link', { name: 'Bài viết mẫu' })
+    // The card is wrapped in a single link to the post detail
+    const link = screen.getByRole('link')
     expect(link).toHaveAttribute('href', '/posts/bai-viet-mau')
+    // Primary (first) tag appears as metadata
     expect(screen.getByText('nextjs')).toBeInTheDocument()
-    expect(screen.getByText('react')).toBeInTheDocument()
+    // Excerpt visible
     expect(screen.getByText('Đây là đoạn trích.')).toBeInTheDocument()
-    expect(screen.getByText('42 lượt xem')).toBeInTheDocument()
   })
 
   it('does not render Image when cover is null', () => {
@@ -35,9 +37,9 @@ describe('PostCard', () => {
     expect(container.querySelector('img')).toBeNull()
   })
 
-  it('does not render viewCount when it is 0', () => {
-    const post = { ...basePost, viewCount: 0 }
-    render(<PostCard post={post} />)
-    expect(screen.queryByText(/lượt xem/)).toBeNull()
+  it('renders as featured when featured prop is true (larger heading)', () => {
+    render(<PostCard post={basePost} featured />)
+    const heading = screen.getByRole('heading', { name: 'Bài viết mẫu' })
+    expect(heading.className).toContain('text-3xl')
   })
 })

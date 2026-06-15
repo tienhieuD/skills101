@@ -1,6 +1,7 @@
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { notFound, redirect } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { timingSafeEqual } from 'crypto'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
@@ -70,43 +71,52 @@ export default async function PostPage({
     : null
 
   return (
-    <article>
+    <article className="space-y-10">
       {isArchived && (
-        <Note variant="archived" title="Archived" className="mb-6">
+        <Note variant="archived" title="Archived">
           Bài này đã được lưu trữ.
         </Note>
       )}
 
+      <header className="space-y-6">
+        {post.tags.length > 0 && (
+          <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[var(--gray-500)]">
+            <Link
+              href={`/?tag=${encodeURIComponent(post.tags[0] ?? '')}`}
+              className="font-medium text-[var(--gray-700)] hover:text-[var(--foreground)] transition-colors"
+            >
+              {post.tags[0]}
+            </Link>
+            {dateFormatted && (
+              <>
+                <span aria-hidden="true">·</span>
+                <time dateTime={post.date ?? undefined}>{dateFormatted}</time>
+              </>
+            )}
+            <span aria-hidden="true">·</span>
+            <ViewCounter slug={post.slug} initialCount={post.viewCount} />
+          </div>
+        )}
+        <h1 className="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1]">
+          {post.title}
+        </h1>
+        {post.excerpt && (
+          <p className="text-xl text-[var(--gray-600)] leading-relaxed">{post.excerpt}</p>
+        )}
+      </header>
+
       {post.cover && (
-        <div className="mb-6">
+        <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg border border-[var(--border)]">
           <Image
             src={post.cover}
             alt={post.title}
-            width={1200}
-            height={630}
+            fill
+            sizes="(min-width: 768px) 720px, 100vw"
             priority
-            className="w-full h-auto rounded-lg"
+            className="object-cover"
           />
         </div>
       )}
-
-      <header className="mb-6">
-        <h1 className="text-4xl font-bold mb-2">{post.title}</h1>
-        <div className="flex items-center gap-3 text-sm" style={{ color: 'var(--gray-600)' }}>
-          {dateFormatted && <time>{dateFormatted}</time>}
-          {dateFormatted && <span>·</span>}
-          <ViewCounter slug={post.slug} initialCount={post.viewCount} />
-        </div>
-        {post.tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <Badge key={tag} as="a" href={`/?tag=${encodeURIComponent(tag)}`}>
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )}
-      </header>
 
       <div className="prose">
         <MDXRemote
@@ -122,6 +132,19 @@ export default async function PostPage({
           }}
         />
       </div>
+
+      {post.tags.length > 1 && (
+        <div className="pt-8 border-t border-[var(--border)]">
+          <p className="text-sm text-[var(--gray-500)] mb-3">Tags</p>
+          <div className="flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <Badge key={tag} as="a" href={`/?tag=${encodeURIComponent(tag)}`}>
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
 
       <GiscusComments />
     </article>
