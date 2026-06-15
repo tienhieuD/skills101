@@ -7,6 +7,7 @@ import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import type { Metadata } from 'next'
 import { getPost, getAllSlugs } from '@/lib/posts'
+import { GiscusComments } from '@/components/GiscusComments'
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return getAllSlugs()
@@ -127,6 +128,8 @@ export default async function PostPage({
           }}
         />
       </div>
+
+      <GiscusComments />
     </article>
   )
 }

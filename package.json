@@ -12,7 +12,9 @@
     "sync": "tsx scripts/sync.ts"
   },
   "dependencies": {
+    "@giscus/react": "^3.1.0",
     "@notionhq/client": "^2.2.15",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^0.27.0",
     "@vercel/kv": "^3.0.0",
     "clsx": "^2.1.1",
