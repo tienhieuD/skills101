@@ -14,25 +14,23 @@ beforeEach(() => {
 })
 
 describe('TagFilter', () => {
-  it('renders a button for each tag', () => {
+  it('renders an item for each tag', () => {
     render(<TagFilter allTags={['nextjs', 'react']} />)
-    expect(screen.getByRole('button', { name: 'nextjs' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'react' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Lọc theo tag nextjs')).toBeInTheDocument()
+    expect(screen.getByLabelText('Lọc theo tag react')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Tất cả' })).not.toBeInTheDocument()
   })
 
   it('marks active tag and shows "Tất cả" when activeTag is set', () => {
     render(<TagFilter allTags={['nextjs', 'react']} activeTag="nextjs" />)
-    const active = screen.getByRole('button', { name: 'nextjs' })
+    const active = screen.getByLabelText('Lọc theo tag nextjs')
     expect(active).toHaveAttribute('aria-pressed', 'true')
-    // shadcn Badge variant="default" uses bg-primary
-    expect(active.className).toContain('bg-primary')
     expect(screen.getByRole('button', { name: 'Tất cả' })).toBeInTheDocument()
   })
 
   it('calls router.push with /?tag=<tag> on click', () => {
     render(<TagFilter allTags={['nextjs', 'react']} />)
-    fireEvent.click(screen.getByRole('button', { name: 'react' }))
+    fireEvent.click(screen.getByLabelText('Lọc theo tag react'))
     expect(pushMock).toHaveBeenCalledWith('/?tag=react')
   })
 

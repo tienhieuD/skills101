@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 interface TagFilterProps {
   allTags: string[]
@@ -13,29 +13,28 @@ export function TagFilter({ allTags, activeTag }: TagFilterProps) {
   const router = useRouter()
 
   return (
-    <div className="flex flex-wrap gap-2">
-      {allTags.map((tag) => {
-        const isActive = tag === activeTag
-        return (
-          <Badge
+    <div className="flex flex-wrap items-center gap-2">
+      <ToggleGroup
+        type="single"
+        value={activeTag ?? ''}
+        onValueChange={(value) => {
+          if (value) router.push(`/?tag=${encodeURIComponent(value)}`)
+        }}
+        variant="outline"
+        size="sm"
+        className="flex-wrap"
+      >
+        {allTags.map((tag) => (
+          <ToggleGroupItem
             key={tag}
-            variant={isActive ? 'default' : 'outline'}
-            className="cursor-pointer"
-            onClick={() => router.push(`/?tag=${encodeURIComponent(tag)}`)}
-            aria-pressed={isActive}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault()
-                router.push(`/?tag=${encodeURIComponent(tag)}`)
-              }
-            }}
+            value={tag}
+            aria-label={`Lọc theo tag ${tag}`}
+            aria-pressed={tag === activeTag}
           >
             {tag}
-          </Badge>
-        )
-      })}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
       {activeTag && (
         <Button variant="ghost" size="sm" onClick={() => router.push('/')}>
           Tất cả

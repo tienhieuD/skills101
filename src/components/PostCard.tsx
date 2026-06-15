@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { PostFrontmatter } from '@/types/post'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 
 interface PostCardProps {
   post: PostFrontmatter
@@ -13,46 +15,46 @@ const dateFormatter = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'long' })
 
 export function PostCard({ post, featured = false, className }: PostCardProps) {
   return (
-    <article className={className}>
-      <Link href={`/posts/${post.slug}`} className="group block">
-        {post.cover && (
-          <div
-            className={`relative w-full overflow-hidden rounded-lg border border-[var(--border)] mb-5 ${
-              featured ? 'aspect-[16/9]' : 'aspect-[16/9]'
-            }`}
-          >
-            <Image
-              src={post.cover}
-              alt={post.title}
-              fill
-              sizes={featured ? '(min-width: 768px) 768px, 100vw' : '(min-width: 768px) 768px, 100vw'}
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-            />
-          </div>
-        )}
-
-        <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[var(--gray-500)]">
-          {post.tags[0] && (
-            <span className="font-medium text-[var(--gray-700)]">{post.tags[0]}</span>
+    <Card className={className}>
+      <CardContent className="p-0">
+        <Link href={`/posts/${post.slug}`} className="group block">
+          {post.cover && (
+            <div className="relative w-full overflow-hidden border-b aspect-[16/9]">
+              <Image
+                src={post.cover}
+                alt={post.title}
+                fill
+                sizes="(min-width: 768px) 768px, 100vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+              />
+            </div>
           )}
-          {post.tags[0] && post.date && <span aria-hidden="true">·</span>}
-          {post.date && <time dateTime={post.date}>{dateFormatter.format(new Date(post.date))}</time>}
-        </div>
-
-        <h2
-          className={`mt-3 font-semibold tracking-tight text-[var(--foreground)] group-hover:text-[var(--gray-700)] transition-colors ${
-            featured ? 'text-3xl md:text-4xl' : 'text-2xl'
-          }`}
-        >
-          {post.title}
-        </h2>
-
-        {post.excerpt && (
-          <p className="mt-3 text-[var(--gray-600)] leading-relaxed line-clamp-2">
-            {post.excerpt}
-          </p>
-        )}
-      </Link>
-    </article>
+          <div className="p-5 space-y-3">
+            <div className="flex items-center gap-2 text-xs">
+              {post.tags[0] && (
+                <Badge variant="secondary" className="font-medium">
+                  {post.tags[0]}
+                </Badge>
+              )}
+              {post.date && (
+                <time dateTime={post.date} className="text-muted-foreground">
+                  {dateFormatter.format(new Date(post.date))}
+                </time>
+              )}
+            </div>
+            <h2
+              className={`font-semibold tracking-tight group-hover:text-muted-foreground transition-colors ${
+                featured ? 'text-3xl md:text-4xl' : 'text-xl md:text-2xl'
+              }`}
+            >
+              {post.title}
+            </h2>
+            {post.excerpt && (
+              <p className="text-muted-foreground leading-relaxed line-clamp-2">{post.excerpt}</p>
+            )}
+          </div>
+        </Link>
+      </CardContent>
+    </Card>
   )
 }

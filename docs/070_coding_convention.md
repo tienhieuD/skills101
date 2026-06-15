@@ -164,10 +164,10 @@ Components đã add (Phase 1):
 | Card | `ui/card.tsx` | `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter` |
 | Input | `ui/input.tsx` | forwards ref + native input attrs |
 | Label | `ui/label.tsx` | Radix Label primitive |
-| Separator | `ui/separator.tsx` | horizontal / vertical divider |
 | Sheet | `ui/sheet.tsx` | side panel (Radix Dialog) — dùng cho mobile nav |
 | Alert | `ui/alert.tsx` | `Alert`, `AlertTitle`, `AlertDescription` |
 | Pagination | `ui/pagination.tsx` | `Pagination`, `PaginationContent`, `PaginationItem`, `PaginationLink`, `PaginationPrevious`, `PaginationNext` |
+| ToggleGroup | `ui/toggle-group.tsx` (+ `ui/toggle.tsx` dep) | tag filter chips với radio behavior |
 
 Wrapper / project-specific components (không thuộc shadcn) sống tại `src/components/`:
 
