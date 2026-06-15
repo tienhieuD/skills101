@@ -15,6 +15,7 @@
   "dependencies": {
     "@giscus/react": "^3.1.0",
     "@notionhq/client": "^2.2.15",
+    "@serwist/next": "^9.5.11",
     "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^0.27.0",
     "@vercel/kv": "^3.0.0",
@@ -31,6 +32,7 @@
     "rehype-pretty-code": "^0.14.0",
     "rehype-slug": "^6.0.0",
     "resend": "^6.12.4",
+    "serwist": "^9.5.11",
     "shiki": "^1.24.0",
     "tailwind-merge": "^2.5.5"
   },
