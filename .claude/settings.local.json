@@ -11,7 +11,14 @@
       "WebFetch(domain:docs.arc42.org)",
       "WebFetch(domain:faq.arc42.org)",
       "Bash(npm --version)",
-      "Bash(*)"
+      "Bash(*)",
+      "WebFetch(domain:vercel.com)",
+      "WebFetch(domain:geist-ui.dev)",
+      "WebFetch(domain:headlessui.com)",
+      "WebFetch(domain:mantine.dev)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:chakra-ui.com)",
+      "WebFetch(domain:storybook.js.org)"
     ]
   },
   "enabledPlugins": {
