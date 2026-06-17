@@ -30,9 +30,5 @@ export function ViewCounter({ slug, initialCount }: ViewCounterProps) {
 
   if (count <= 0) return null
 
-  return (
-    <span className="text-sm" style={{ color: 'var(--gray-600)' }}>
-      {count.toLocaleString('vi-VN')} lượt xem
-    </span>
-  )
+  return <span>{count.toLocaleString('vi-VN')} lượt xem</span>
 }

@@ -2,14 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
-import { useTheme } from 'next-themes'
 
 const Giscus = dynamic(() => import('@giscus/react'), { ssr: false })
 
 export function GiscusComments() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [shouldMount, setShouldMount] = useState(false)
-  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -34,19 +32,17 @@ export function GiscusComments() {
 
   if (!repo || !repoId || !category || !categoryId) {
     return (
-      <div
-        ref={containerRef}
-        className="mt-12 py-8 text-center text-sm"
-        style={{ color: 'var(--gray-600)' }}
-      >
-        Bình luận sẽ hiển thị khi cấu hình Giscus hoàn tất.
+      <div ref={containerRef}>
+        <p>
+          <small>Bình luận sẽ hiển thị khi cấu hình Giscus hoàn tất.</small>
+        </p>
       </div>
     )
   }
 
   return (
-    <div ref={containerRef} className="mt-12">
-      <h2 className="text-2xl font-bold mb-4">Bình luận</h2>
+    <div ref={containerRef}>
+      <h3>Bình luận</h3>
       {shouldMount && (
         <Giscus
           repo={repo}
@@ -57,7 +53,7 @@ export function GiscusComments() {
           reactionsEnabled="1"
           emitMetadata="0"
           inputPosition="bottom"
-          theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+          theme="light"
           lang="vi"
           loading="lazy"
         />

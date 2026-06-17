@@ -1,11 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -17,13 +12,11 @@ export function NewsletterForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErrorMsg('')
-
     if (!EMAIL_REGEX.test(email.trim())) {
       setStatus('error')
       setErrorMsg('Vui lòng nhập email hợp lệ.')
       return
     }
-
     setStatus('loading')
     try {
       const res = await fetch('/api/newsletter', {
@@ -46,20 +39,14 @@ export function NewsletterForm() {
   }
 
   if (status === 'success') {
-    return (
-      <Card>
-        <CardContent className="pt-6">
-          Đăng ký thành công! Kiểm tra email của bạn.
-        </CardContent>
-      </Card>
-    )
+    return <p>Đăng ký thành công! Kiểm tra email của bạn.</p>
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <Label htmlFor="newsletter-email">Đăng ký nhận bài mới</Label>
-      <div className="flex flex-col sm:flex-row gap-2">
-        <Input
+    <form onSubmit={handleSubmit}>
+      <p>
+        <label htmlFor="newsletter-email">Đăng ký nhận bài mới: </label>
+        <input
           id="newsletter-email"
           type="email"
           value={email}
@@ -67,16 +54,15 @@ export function NewsletterForm() {
           placeholder="email@example.com"
           required
           disabled={status === 'loading'}
-          className="flex-1"
-        />
-        <Button type="submit" disabled={status === 'loading'}>
-          {status === 'loading' && <Loader2 className="size-4 animate-spin" />}
+          size={30}
+        />{' '}
+        <button type="submit" disabled={status === 'loading'}>
           {status === 'loading' ? 'Đang gửi...' : 'Đăng ký'}
-        </Button>
-      </div>
+        </button>
+      </p>
       {status === 'error' && errorMsg && (
-        <p className="text-sm text-destructive" role="alert">
-          {errorMsg}
+        <p role="alert">
+          <strong>Lỗi:</strong> {errorMsg}
         </p>
       )}
     </form>

@@ -25,6 +25,9 @@ const eslintConfig = [
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       '@typescript-eslint/no-non-null-assertion': 'warn',
       'no-console': ['warn', { allow: ['warn', 'error'] }],
+      // Plain HTML is intentional (no design system) — allow <a> for internal nav and <img>
+      '@next/next/no-html-link-for-pages': 'off',
+      '@next/next/no-img-element': 'off',
     },
   },
 ]

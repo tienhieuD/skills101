@@ -1,9 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { Loader2 } from 'lucide-react'
-import { Input } from '@/components/ui/input'
 
 interface PagefindResult {
   id: string
@@ -42,9 +39,7 @@ export function SearchBox() {
       .then((mod) => {
         window.pagefind = mod as PagefindAPI
       })
-      .catch(() => {
-        // Pagefind index chưa được build (dev mode) — silent fallback
-      })
+      .catch(() => {})
   }, [])
 
   useEffect(() => {
@@ -79,37 +74,27 @@ export function SearchBox() {
   }, [query])
 
   return (
-    <div className="w-full">
-      <Input
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Tìm kiếm bài viết..."
-      />
-      {status === 'loading' && (
-        <p className="mt-2 text-sm flex items-center gap-2 text-muted-foreground">
-          <Loader2 className="size-4 animate-spin" aria-label="Đang tìm" />
-          Đang tìm...
-        </p>
-      )}
-      {status === 'empty' && query.trim() && (
-        <p className="mt-2 text-sm" style={{ color: 'var(--gray-600)' }}>
-          Không tìm thấy kết quả.
-        </p>
-      )}
+    <div>
+      <p>
+        <label htmlFor="search-input">Tìm kiếm: </label>
+        <input
+          id="search-input"
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Tìm bài viết..."
+          size={30}
+        />
+      </p>
+      {status === 'loading' && <p>Đang tìm...</p>}
+      {status === 'empty' && query.trim() && <p>Không tìm thấy kết quả.</p>}
       {status === 'ready' && results.length > 0 && (
-        <ul className="mt-3 flex flex-col gap-2">
+        <ul>
           {results.map((r) => (
             <li key={r.url}>
-              <Link
-                href={r.url}
-                className="block p-3 border rounded hover:bg-[var(--gray-100)]"
-                style={{ borderColor: 'var(--border)' }}
-              >
-                <div className="font-medium" dangerouslySetInnerHTML={{ __html: r.title }} />
-                <div className="text-sm mt-1" style={{ color: 'var(--gray-600)' }}
-                     dangerouslySetInnerHTML={{ __html: r.excerpt }} />
-              </Link>
+              <a href={r.url} dangerouslySetInnerHTML={{ __html: r.title }} />
+              <br />
+              <small dangerouslySetInnerHTML={{ __html: r.excerpt }} />
             </li>
           ))}
         </ul>
