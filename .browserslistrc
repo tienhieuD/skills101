@@ -1,0 +1,10 @@
+# Modern browsers — drop legacy polyfills (BUG-related: legacy-javascript-insight)
+# Saves ~12 KB by skipping Array.prototype.at, flat, flatMap, Object.fromEntries,
+# Object.hasOwn, String.prototype.trimStart/trimEnd polyfills.
+last 2 Chrome versions
+last 2 Edge versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 iOS versions
+not dead
+not IE 11

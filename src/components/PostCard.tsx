@@ -25,6 +25,8 @@ export function PostCard({ post, featured = false, className }: PostCardProps) {
                 alt={post.title}
                 fill
                 sizes="(min-width: 768px) 768px, 100vw"
+                priority={featured}
+                loading={featured ? 'eager' : 'lazy'}
                 className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               />
             </div>
